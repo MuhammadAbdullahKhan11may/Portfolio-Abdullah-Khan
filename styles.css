@@ -23,12 +23,33 @@ body {
 }
 
 @media (max-width: 768px) {
-  body {
-    background-image: url('wmremove-transformed.png');
-    background-attachment: scroll;
-    background-size: cover;
-    background-position: center top;
-    background-repeat: no-repeat;
+  .page-wrap {
+    width: 100%;
+    padding: 0 8px 30px;
+  }
+
+  .section {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 16px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    width: 100%;
+    min-height: auto;
+    padding: 16px;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .hero-right img {
+    max-width: 200px;
+    margin: 0 auto;
   }
 }
 @keyframes gradientShift {

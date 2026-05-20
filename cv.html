@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abdullah Khan — CV</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 18px;
+      font-family: Arial, sans-serif;
+    }
+
+    .cv-topbar {
+      width: min(100%, 860px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .cv-topbar h2 {
+      color: #fff;
+      font-size: 20px;
+      font-family: Georgia, serif;
+    }
+
+    .back-btn {
+      display: inline-block;
+      padding: 10px 22px;
+      background: radial-gradient(circle at bottom center, #fec35f, #e9772c);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.05) translateY(-2px);
+      box-shadow: 0 6px 20px rgba(233, 119, 44, 0.4);
+    }
+
+    .cv-frame {
+      width: min(100%, 860px);
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .cv-frame img {
+      width: 100%;
+      display: block;
+    }
+
+    .cv-download {
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      padding: 12px 32px;
+      background: radial-gradient(circle at bottom center, #fec35f, #e9772c);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .download-btn:hover {
+      transform: scale(1.05) translateY(-2px);
+      box-shadow: 0 6px 20px rgba(233, 119, 44, 0.45);
+    }
+    /* NAV BUTTON STYLE */
+    .back-btn, .download-btn {
+      --icon_width: 8px;
+      --icon_height: 10px;
+      --icon_color: #ffffff;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      position: relative;
+      padding: 10px 20px 10px 35px;
+      background: radial-gradient(circle at bottom center, #fec35f, #e9772c, #f49d46);
+      color: #ffffff;
+      transform-style: preserve-3d;
+      transition: all 300ms ease;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      user-select: none;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+      box-sizing: border-box;
+      line-height: 1.3;
+    }
+
+    .back-btn:hover, .download-btn:hover {
+      color: #000000;
+      background: radial-gradient(circle at center center, #f9f9f9, #a7a7a7);
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 6px 20px rgba(233, 119, 44, 0.35);
+    }
+
+    .back-btn:hover .btn-icon, .download-btn:hover .btn-icon {
+      transition: all 800ms ease-in-out;
+      transform: rotateY(90deg) rotate(-360deg);
+    }
+
+    .btn-icon {
+      width: 80px;
+      display: block;
+      position: absolute;
+      left: -20px;
+      top: -36px;
+      bottom: -40px;
+      transform-style: preserve-3d;
+      transform: rotateY(90deg) rotate(0deg);
+    }
+
+    .btn-icon > span {
+      position: absolute;
+      background: var(--icon_color);
+      width: var(--icon_width);
+      height: var(--icon_height);
+      left: 0;
+      top: 50px;
+      transform: rotateY(-90deg);
+    }
+
+    .btn-icon > span::before {
+      position: absolute;
+      content: "";
+      top: 100%;
+      left: 0;
+      margin-left: calc((var(--icon_width) * -1) + var(--icon_width) / 2);
+      width: 0;
+      height: 0;
+      border-width: calc(var(--icon_width) + 5px) var(--icon_width) 0 var(--icon_width);
+      border-color: var(--icon_color) transparent transparent transparent;
+      border-style: solid;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cv-topbar">
+    <h2>Muhammad Abdullah Khan — CV</h2>
+    <button class="back-btn" onclick="window.close()">← Back to Portfolio</button>
+  </div>
+
+  <div class="cv-frame">
+    <img src="Abdullah_Khan_FlowCV_Resume_2026-05-05_page-0001.jpg" alt="Abdullah Khan CV" />
+  </div>
+
+  <div class="cv-download">
+    <a href="Abdullah_Khan_FlowCV_Resume_2026-05-05_page-0001.jpg" download="Abdullah_Khan_CV.png" class="download-btn">
+      ⬇ Download CV
+    </a>
+  </div>
+
+</body>
+</html>

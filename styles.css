@@ -1002,11 +1002,9 @@ section[id] {
 }
 @media (max-width: 768px) {
   body {
-    background-image: url('wmremove-transformed.png');
+    background-image: none;
+    background-color: #cce8f4;
     background-attachment: scroll;
-    background-size: cover;
-    background-position: center top;
-    background-repeat: no-repeat;
   }
 
   * {

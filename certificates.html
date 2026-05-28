@@ -633,10 +633,18 @@
     });
 
     // ── SCROLL ANIMATIONS ──
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.page-header, .cert-section').forEach(el => observer.observe(el));
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.05, rootMargin: "0px 0px -10px 0px" });
+document.querySelectorAll('.page-header, .cert-section').forEach(el => observer.observe(el));
+
+// Force trigger on mobile where observer may miss already-visible elements
+setTimeout(() => {
+  document.querySelectorAll('.page-header, .cert-section').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) el.classList.add('visible');
+  });
+}, 200);
 
     // ── CUSTOM CURSOR ──
     const cursor = document.getElementById('cursor');

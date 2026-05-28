@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Muhammad Abdullah Khan — CV</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 18px;
+      font-family: Arial, sans-serif;
+    }
+
+    /* ── HEADER BANNER ── */
+    .cv-header {
+      width: min(100%, 960px);
+      background: #0d1117;
+      border-radius: 14px;
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      border: 1px solid #2a2a2a;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .cv-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .cv-header-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: #e9772c;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .cv-header-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-size: 22px;
+      font-family: Georgia, serif;
+      font-weight: 700;
+    }
+
+    .cv-header-name svg {
+      color: #e9772c;
+    }
+
+    .cv-header-btns {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .cv-btn {
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .cv-btn-outline {
+      background: transparent;
+      border: 1px solid #3a3a3a;
+      color: #ccc;
+    }
+
+    .cv-btn-outline:hover {
+      border-color: #e9772c;
+      color: #e9772c;
+    }
+
+    .cv-btn-outline.active {
+      border-color: #e9772c;
+      color: #e9772c;
+      background: rgba(233,119,44,0.08);
+    }
+
+    .cv-btn-orange {
+      background: radial-gradient(circle at bottom center, #fec35f, #e9772c, #f49d46);
+      color: #fff;
+    }
+
+    .cv-btn-orange:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(233,119,44,0.4);
+    }
+
+    /* ── VIEW PANELS ── */
+    .cv-panel {
+      width: min(100%, 960px);
+      display: none;
+    }
+
+    .cv-panel.active {
+      display: block;
+    }
+
+    .cv-frame {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    .cv-frame iframe {
+      width: 100%;
+      height: 90vh;
+      border: none;
+      display: block;
+      border-radius: 16px;
+    }
+
+    /* ── WEB CV STYLES ── */
+    .webcv {
+      background: #f4f4f4;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      display: grid;
+      grid-template-columns: 1fr 280px;
+    }
+
+    .webcv-main {
+      background: #fff;
+      padding: 40px 36px;
+    }
+
+    .webcv-sidebar {
+      background: #fafafa;
+      border-left: 1px solid #eee;
+      padding: 36px 24px;
+    }
+
+    /* hero strip */
+    .webcv-hero {
+      background: #0d1117;
+      color: #fff;
+      border-radius: 12px;
+      padding: 28px 30px;
+      margin-bottom: 32px;
+    }
+
+    .webcv-hero .ready-badge {
+      display: inline-block;
+      background: #e9772c;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .webcv-hero h1 {
+      font-size: 32px;
+      font-family: Georgia, serif;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .webcv-hero .webcv-tagline {
+      color: #aaa;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .webcv-hero-contacts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .webcv-hero-contacts a {
+      color: #e9772c;
+      font-size: 13px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .webcv-hero-contacts a:hover { text-decoration: underline; }
+
+    /* sections */
+    .webcv-section {
+      margin-bottom: 28px;
+    }
+
+    .webcv-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #888;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 6px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .webcv-section-title span { color: #e9772c; }
+
+    .webcv-entry {
+      margin-bottom: 20px;
+    }
+
+    .webcv-entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2px;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .webcv-entry-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111;
+    }
+
+    .webcv-entry-date {
+      font-size: 11px;
+      color: #888;
+      background: #f0f0f0;
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .webcv-entry-org {
+      color: #e9772c;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .webcv-entry-desc {
+      font-size: 13px;
+      color: #555;
+      font-style: italic;
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+
+    .webcv-entry ul {
+      padding-left: 16px;
+      font-size: 13px;
+      color: #444;
+      line-height: 1.7;
+    }
+
+    .webcv-entry ul li::marker { color: #e9772c; }
+
+    /* sidebar */
+    .webcv-sidebar-section {
+      margin-bottom: 26px;
+    }
+
+    .webcv-sidebar-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #e9772c;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .webcv-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .webcv-tag {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: #333;
+    }
+
+    .webcv-soft-item {
+      margin-bottom: 12px;
+    }
+
+    .webcv-soft-item strong {
+      font-size: 13px;
+      color: #111;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .webcv-soft-item p {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .webcv-interest {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .webcv-interest::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #e9772c;
+      flex-shrink: 0;
+    }
+
+    .webcv-edu-entry {
+      margin-bottom: 16px;
+    }
+
+    .webcv-edu-entry h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #111;
+    }
+
+    .webcv-edu-entry .edu-org {
+      color: #e9772c;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .webcv-edu-entry ul {
+      padding-left: 14px;
+      font-size: 12px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .webcv-edu-entry ul li::marker { color: #e9772c; }
+
+    @media (max-width: 700px) {
+      .webcv { grid-template-columns: 1fr; }
+      .webcv-sidebar { border-left: none; border-top: 1px solid #eee; }
+      .cv-header { flex-direction: column; align-items: flex-start; }
+      .webcv-hero-contacts { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER BANNER -->
+  <div class="cv-header">
+    <div class="cv-header-left">
+      <span class="cv-header-label">Curriculum Vitae</span>
+      <div class="cv-header-name">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
+        Muhammad Abdullah Khan
+      </div>
+    </div>
+    <a href="index.html" class="cv-btn cv-btn-outline">← Portfolio</a>
+      <button class="cv-btn cv-btn-outline active" id="btnWebCV" onclick="showView('web')">
+        👁 Web CV
+      </button>
+      <button class="cv-btn cv-btn-outline" id="btnPDF" onclick="showView('pdf')">
+        📄 PDF View
+      </button>
+      <a href="Abdullah_Khan_FlowCV_Resume_2026-05-21.pdf" download="Abdullah_Khan_CV.pdf" class="cv-btn cv-btn-orange">
+        ⬇ Download
+      </a>
+    </div>
+  </div>
+
+  <!-- WEB CV PANEL -->
+  <div class="cv-panel active" id="panelWeb">
+    <div class="webcv">
+
+      <!-- MAIN COLUMN -->
+      <div class="webcv-main">
+
+        <!-- Hero -->
+        <div class="webcv-hero">
+          <div class="ready-badge">Ready for Industry Opportunities</div>
+          <h1>Muhammad Abdullah Khan</h1>
+          <div class="webcv-tagline">BSCS Student &nbsp;|&nbsp; A-Level Physics Educator &nbsp;|&nbsp; Cyber Security &amp; AI Researcher</div>
+          <div class="webcv-hero-contacts">
+            <a href="tel:03192096617">📞 03192096617</a>
+            <a href="mailto:abdullahkan11may@gmail.com">✉️ abdullahkan11may@gmail.com</a>
+            <a href="https://www.linkedin.com/in/abdullah-khan-34b156402" target="_blank">💼 LinkedIn Profile</a>
+            <a href="#">📍 Karachi, Pakistan</a>
+          </div>
+        </div>
+
+        <!-- Professional Summary -->
+        <div class="webcv-section">
+          <div class="webcv-section-title"><span>📋</span> Professional Summary</div>
+          <p style="font-size:14px;color:#444;line-height:1.7;">
+            A dedicated Computer Science major with focused interests in Cybersecurity systems, automated Artificial Intelligence flows, and scalable software architectures. Supported by a robust multi-year record of conceptual Physics lecturing and volunteering in hospital environments, which has sharpened extreme logical problem decomposition, adaptive instruction design, and high-stress composure.
+          </p>
+        </div>
+
+        <!-- Work Experience -->
+        <div class="webcv-section">
+          <div class="webcv-section-title"><span>💼</span> Work Experience</div>
+
+          <div class="webcv-entry">
+            <div class="webcv-entry-header">
+              <div class="webcv-entry-title">A-Level Physics Teacher</div>
+              <div class="webcv-entry-date">2024 – Present</div>
+            </div>
+            <div class="webcv-entry-org">Beaconhouse College Programme (BCP) / Independent</div>
+            <div class="webcv-entry-desc">Designed and delivered custom teaching modules matching modern academic guidelines to A2 &amp; AS Level students, optimizing scientific reasoning and conceptual clarity.</div>
+            <ul>
+              <li>Taught Cambridge International AS &amp; A Level Physics courses.</li>
+              <li>Developed unique analogies to translate heavy mathematical equations into digestible conceptual mental models.</li>
+              <li>Mentored student teams in science projects and laboratory experiments.</li>
+            </ul>
+          </div>
+
+          <div class="webcv-entry">
+            <div class="webcv-entry-header">
+              <div class="webcv-entry-title">Student Volunteer &amp; Medical Intern</div>
+              <div class="webcv-entry-date">September 2023</div>
+            </div>
+            <div class="webcv-entry-org">Patel Hospital (Patel Stallion Programme)</div>
+            <div class="webcv-entry-desc">Supported clinical and pediatric wards in non-medical outreach tasks, developing crisis management and compassionate communication frameworks under pressure.</div>
+            <ul>
+              <li>Completed certification in Basic First Aid and emergency response protocols.</li>
+              <li>Volunteered inside pediatric healthcare wards, providing positive emotional support to young cancer and critical disease patients.</li>
+              <li>Regulated emotional and psychological distress in highly stressful hospital environments.</li>
+            </ul>
+          </div>
+
+          <div class="webcv-entry">
+            <div class="webcv-entry-header">
+              <div class="webcv-entry-title">Teacher Assistant — Physics</div>
+              <div class="webcv-entry-date">August 2024 – December 2024</div>
+            </div>
+            <div class="webcv-entry-org">Beaconhouse College Programme</div>
+            <div class="webcv-entry-desc">Appointed to assist senior instructors, managing tutorial sessions, homework correction, and setting up lab devices.</div>
+            <ul>
+              <li>Conducted doubt-clearing sessions for 40+ physics students.</li>
+              <li>Created study guides, formula notebooks, and custom practice sheets.</li>
+              <li>Assisted in administering tests and analyzing student performance metrics.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="webcv-section">
+          <div class="webcv-section-title"><span>🎓</span> Education</div>
+
+          <div class="webcv-edu-entry">
+            <div class="webcv-entry-header">
+              <h4>BS Computer Science (BSCS)</h4>
+              <div class="webcv-entry-date">2025 – 2028</div>
+            </div>
+            <div class="edu-org">Muhammad Ali Jinnah University (MAJU)</div>
+            <ul>
+              <li>Current CGPA: High Standing</li>
+              <li>Core Coursework: Data Structures &amp; Algorithms, OOP, Discrete Mathematics, Database Systems, Computer Networks</li>
+              <li>Active participant in tech workshops and university-sponsored seminars on AI and automation.</li>
+            </ul>
+          </div>
+
+          <div class="webcv-edu-entry">
+            <div class="webcv-entry-header">
+              <h4>A Levels — Pre-Medical</h4>
+              <div class="webcv-entry-date">Completed 2024</div>
+            </div>
+            <div class="edu-org">Beaconhouse College Programme (BCP)</div>
+            <ul>
+              <li>Concentrations: Physics, Chemistry, Biology</li>
+              <li>Served as Physics Teacher's Assistant, delivering tutorial help and lab guidance to batchmates.</li>
+            </ul>
+          </div>
+
+          <div class="webcv-edu-entry">
+            <div class="webcv-entry-header">
+              <h4>O Levels — Pre-Medical</h4>
+              <div class="webcv-entry-date">Completed 2021</div>
+            </div>
+            <div class="edu-org">Beaconhouse School System</div>
+            <ul>
+              <li>Excelled in Sciences with distinctions in physics and biology.</li>
+              <li>Recognized multiple times for leadership and moral responsibility.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div><!-- /webcv-main -->
+
+      <!-- SIDEBAR -->
+      <div class="webcv-sidebar">
+
+        <div class="webcv-sidebar-section">
+          <div class="webcv-sidebar-title">⚙ Technical Competency</div>
+          <div class="webcv-tags">
+            <span class="webcv-tag">C++</span>
+            <span class="webcv-tag">Data Structures</span>
+            <span class="webcv-tag">OOP</span>
+            <span class="webcv-tag">Competitive Programming</span>
+            <span class="webcv-tag">Hackathons</span>
+            <span class="webcv-tag">AI Integration</span>
+            <span class="webcv-tag">Prompt Engineering</span>
+            <span class="webcv-tag">HTML5, CSS3</span>
+            <span class="webcv-tag">Cyber Security</span>
+            <span class="webcv-tag">Multisim Physics</span>
+          </div>
+        </div>
+
+        <div class="webcv-sidebar-section">
+          <div class="webcv-sidebar-title">✅ Soft Talents</div>
+          <div class="webcv-soft-item">
+            <strong>Leadership &amp; Team Administration</strong>
+            <p>Respected team leader with experience executing collaborative class and club projects.</p>
+          </div>
+          <div class="webcv-soft-item">
+            <strong>Educator &amp; Communication Strategist</strong>
+            <p>Capable of translating complex physics and CS concepts into clear, digestible mental models.</p>
+          </div>
+          <div class="webcv-soft-item">
+            <strong>Public Speaking &amp; Confident Presentation</strong>
+            <p>Developed exceptional public speaking through classroom lecturing and presenting to parents.</p>
+          </div>
+          <div class="webcv-soft-item">
+            <strong>Crisis Awareness &amp; Hospital-Sourced Composure</strong>
+            <p>Clinical internships instilled high adaptability, discipline, and emotional regulation.</p>
+          </div>
+          <div class="webcv-soft-item">
+            <strong>Ethical Decisive Choice-Making</strong>
+            <p>Approaches difficult decisions with structured logical analysis and a strong sense of ethics.</p>
+          </div>
+        </div>
+
+        <div class="webcv-sidebar-section">
+          <div class="webcv-sidebar-title">🔶 Fields of Interest</div>
+          <div class="webcv-interest">Oncology &amp; Healthcare Research</div>
+          <div class="webcv-interest">Cyber Security &amp; Logic Crypts</div>
+          <div class="webcv-interest">Agentic AI &amp; Prompt Pipelines</div>
+        </div>
+
+      </div><!-- /webcv-sidebar -->
+
+    </div><!-- /webcv -->
+  </div><!-- /panelWeb -->
+
+  <!-- PDF VIEW PANEL -->
+  <div class="cv-panel" id="panelPDF">
+    <div class="cv-frame">
+      <iframe
+        src="Abdullah_Khan_FlowCV_Resume_2026-05-21.pdf"
+        title="Abdullah Khan CV"
+        type="application/pdf"
+      >
+        <p style="padding:40px;text-align:center;color:#333;">
+          Your browser cannot display this PDF inline.<br><br>
+          <a href="Abdullah_Khan_FlowCV_Resume_2026-05-21.pdf" download>⬇ Download CV instead</a>
+        </p>
+      </iframe>
+    </div>
+  </div>
+
+  <script>
+    function showView(view) {
+      document.getElementById('panelWeb').classList.toggle('active', view === 'web');
+      document.getElementById('panelPDF').classList.toggle('active', view === 'pdf');
+      document.getElementById('btnWebCV').classList.toggle('active', view === 'web');
+      document.getElementById('btnPDF').classList.toggle('active', view === 'pdf');
+    }
+  </script>
+
+</body>
+</html>

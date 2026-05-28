@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abdullah Khan — Certificates</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: Georgia, "Times New Roman", serif; color: #111; background-image: url('christopher-gower-m_HRfLhgABo-unsplash.jpg'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; }
+    @media (max-width: 768px) { body { background-image: none; background-color: #cce8f4; } * { cursor: auto !important; } .cursor { display: none; } }
+    * { cursor: none !important; }
+
+    /* CURSOR */
+    .cursor { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999; transform: translate(-50%, -50%); }
+    .cursor-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid rgba(0,255,180,0.9); background: transparent; box-shadow: 0 0 8px rgba(0,255,180,0.4), inset 0 0 8px rgba(0,255,180,0.1); transition: transform 0.15s ease, box-shadow 0.15s ease; }
+    .cursor-dot { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 5px; height: 5px; border-radius: 50%; background: rgb(0,26,255); box-shadow: 0 0 6px rgba(0,34,255,0.9), 0 0 12px rgba(0,55,255,0.5); }
+    .cursor-line { position: absolute; background: rgba(30,0,255,0.85); box-shadow: 0 0 4px rgba(13,0,255,0.6); }
+    .cursor-line-top    { width: 1.5px; height: 16px; top: -26px;    left: 50%;  transform: translateX(-50%); }
+    .cursor-line-bottom { width: 1.5px; height: 16px; bottom: -26px; left: 50%;  transform: translateX(-50%); }
+    .cursor-line-left   { height: 1.5px; width: 16px; left: -26px;   top: 50%;   transform: translateY(-50%); }
+    .cursor-line-right  { height: 1.5px; width: 16px; right: -26px;  top: 50%;   transform: translateY(-50%); }
+    .cursor.clicking .cursor-ring { transform: translate(-50%,-50%) scale(0.7); box-shadow: 0 0 16px rgba(8,0,255,0.8), inset 0 0 10px rgba(0,255,180,0.2); }
+    .cursor.hovering .cursor-ring { transform: translate(-50%,-50%) scale(1.5); box-shadow: 0 0 20px rgba(0,42,255,0.7), inset 0 0 14px rgba(0,255,180,0.15); }
+
+    /* PROGRESS BAR */
+    .progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 5px; background: linear-gradient(to right, #5f74fe, #3f2ce9); z-index: 9999; transition: width 0.1s ease; border-radius: 0 2px 2px 0; }
+
+    /* NAVBAR */
+    .navbar { width: 100%; background: #111; display: flex; justify-content: center; align-items: center; gap: 40px; padding: 10px 18px; position: sticky; top: 0; z-index: 1000; }
+    .nav-btn { --icon_width: 8px; --icon_height: 10px; --icon_color: #ffffff; border-radius: 10px; border: 1px solid rgba(0,0,0,0.05); position: relative; padding: 10px 20px 10px 35px; background: radial-gradient(circle at bottom center, #fec35f, #e9772c, #f49d46); color: #ffffff; transform-style: preserve-3d; transition: all 300ms ease; font-family: Georgia, "Times New Roman", serif; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; user-select: none; display: inline-flex; justify-content: center; align-items: center; z-index: 1; line-height: 1.3; }
+    .nav-btn:hover { color: #000; background: radial-gradient(circle at center center, #f9f9f9, #a7a7a7); transform: scale(1.08) translateY(-2px); box-shadow: 0 6px 20px rgba(233,119,44,0.35); }
+    .nav-btn:hover .btn-icon { transition: all 800ms ease-in-out; transform: rotateY(90deg) rotate(-360deg); }
+    .nav-btn .btn-icon { width: 80px; display: block; position: absolute; left: -20px; top: -36px; bottom: -40px; transform-style: preserve-3d; transform: rotateY(90deg) rotate(0deg); }
+    .nav-btn .btn-icon > span { position: absolute; background: var(--icon_color); width: var(--icon_width); height: var(--icon_height); left: 0; top: 50px; transform: rotateY(-90deg); }
+    .nav-btn > .btn-icon > span::before { position: absolute; content: ""; top: 100%; left: 0; margin-left: calc((var(--icon_width) * -1) + var(--icon_width) / 2); width: 0; height: 0; border-width: calc(var(--icon_width) + 5px) var(--icon_width) 0 var(--icon_width); border-color: var(--icon_color) transparent transparent transparent; border-style: solid; }
+
+    /* PAGE WRAP */
+    .page-wrap { width: min(100%, 1200px); margin: 0 auto; padding: 40px 18px 60px; }
+
+    /* PAGE HEADER */
+    .page-header { background: rgba(255,255,255,0.75); border: 1px solid rgba(255,255,255,0.3); border-radius: 18px; padding: 32px 36px; margin-bottom: 28px; opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .page-header.visible { opacity: 1; transform: translateY(0); }
+    .page-header h1 { font-size: clamp(48px, 7vw, 80px); font-weight: 400; margin-bottom: 8px; }
+    .page-header p { font-family: Arial; font-size: 18px; color: #444; line-height: 1.6; }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      background: #0f1923;
+      border-radius: 14px;
+      padding: 14px 20px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .filter-bar.visible { opacity: 1; transform: translateY(0); }
+
+    .filter-search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 8px 14px;
+      flex: 1;
+      min-width: 200px;
+    }
+    .filter-search-wrap svg { color: #888; flex-shrink: 0; }
+    .filter-search {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 14px;
+      font-family: Arial, sans-serif;
+      width: 100%;
+    }
+    .filter-search::placeholder { color: #666; }
+
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .filter-tab {
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: transparent;
+      color: #aaa;
+      font-size: 14px;
+      font-family: Arial, sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .filter-tab:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+    .filter-tab.active {
+      background: radial-gradient(circle at bottom center, #fec35f, #e9772c, #f49d46);
+      border-color: transparent;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    /* CERT SECTION */
+    .cert-section { background: rgba(255,255,255,0.75); border: 1px solid rgba(255,255,255,0.3); border-radius: 18px; padding: 32px 28px; margin-bottom: 36px; opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .cert-section.visible { opacity: 1; transform: translateY(0); }
+
+    /* count badge */
+    .cert-count {
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 20px;
+    }
+    .cert-count span { color: #e9772c; font-weight: 700; }
+
+    /* GRID */
+    .cert-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .cert-card { display: flex; flex-direction: column; background: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.5); border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .cert-card:hover { transform: translateY(-6px); box-shadow: 0 12px 36px rgba(233,119,44,0.2), 0 4px 16px rgba(0,0,0,0.12); }
+    .cert-card.hidden { display: none; }
+
+    .cert-img-wrap { width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #e8e8e8; cursor: pointer; position: relative; }
+    .cert-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+    .cert-card:hover .cert-img-wrap img { transform: scale(1.04); }
+    .cert-img-wrap::after { content: "🔍 Click to enlarge"; position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.55); color: #fff; font-family: Arial; font-size: 13px; text-align: center; padding: 8px; opacity: 0; transition: opacity 0.3s ease; }
+    .cert-card:hover .cert-img-wrap::after { opacity: 1; }
+
+    .cert-info { padding: 16px 18px 20px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+    .cert-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .cert-year { font-family: Arial; font-size: 12px; font-weight: 700; color: #e9772c; text-transform: uppercase; letter-spacing: 1px; }
+    .cert-badge {
+      font-family: Arial; font-size: 10px; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 20px;
+    }
+    .badge-academic    { background: #dbeafe; color: #1d4ed8; }
+    .badge-professional{ background: #dcfce7; color: #15803d; }
+    .badge-cocurricular{ background: #fef9c3; color: #a16207; }
+    .badge-volunteer   { background: #fce7f3; color: #be185d; }
+
+    .cert-title { font-family: Georgia, serif; font-size: 17px; font-weight: 600; color: #111; line-height: 1.4; }
+    .cert-desc { font-family: Arial; font-size: 14px; color: #555; line-height: 1.6; margin-top: 4px; }
+
+    /* NO RESULTS */
+    .no-results { display: none; text-align: center; padding: 60px 20px; font-family: Arial; color: #888; font-size: 16px; }
+    .no-results.show { display: block; }
+
+    /* LIGHTBOX */
+    .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 99990; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+    .lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox img { max-width: 90vw; max-height: 88vh; object-fit: contain; border-radius: 10px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); transform: scale(0.9); transition: transform 0.3s ease; }
+    .lightbox.open img { transform: scale(1); }
+    .lightbox-close { position: absolute; top: 20px; right: 28px; font-size: 38px; color: #fff; cursor: pointer; font-family: Arial; line-height: 1; transition: color 0.2s ease; }
+    .lightbox-close:hover { color: #e9772c; }
+
+    /* FOOTER */
+    .footer { background: #111; color: #ccc; padding: 40px 24px 0; margin-top: 20px; }
+    .footer-inner { width: min(100%, 1100px); margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; padding-bottom: 32px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .footer-name h3 { font-family: Georgia,serif; font-size: 20px; color:#fff; margin-bottom:8px; }
+    .footer-name p { font-family: Arial; font-size:13px; color:#888; line-height:1.6; }
+    .footer-links, .footer-contact { display:flex; flex-direction:column; gap:10px; }
+    .footer-links a, .footer-contact a { font-family:Arial; font-size:14px; color:#aaa; text-decoration:none; transition: color 0.2s ease, padding-left 0.2s ease; }
+    .footer-links a:hover { color:#e9772c; padding-left:6px; }
+    .footer-contact a:hover { color:#e9772c; }
+    .footer-bottom { width:min(100%,1100px); margin:0 auto; padding:16px 0; text-align:center; }
+    .footer-bottom p { font-family:Arial; font-size:12px; color:#555; }
+
+    @media (max-width: 900px) {
+      .cert-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-inner { grid-template-columns: 1fr; gap: 24px; }
+      .navbar { gap: 10px; flex-wrap: wrap; }
+    }
+    @media (max-width: 580px) {
+      .cert-grid { grid-template-columns: 1fr; }
+      .nav-btn { font-size: 11px; padding: 7px 12px; }
+      .nav-btn .btn-icon { display: none; }
+      .filter-bar { gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor">
+    <div class="cursor-ring"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-line cursor-line-top"></div>
+    <div class="cursor-line cursor-line-bottom"></div>
+    <div class="cursor-line cursor-line-left"></div>
+    <div class="cursor-line cursor-line-right"></div>
+  </div>
+
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav class="navbar" style="justify-content:flex-start; gap:16px; padding:10px 20px;">
+    <a href="index.html" class="nav-btn"><div class="btn-icon"><span></span></div>← Portfolio</a>
+    <div style="display:flex;align-items:center;gap:10px;flex:1;flex-wrap:wrap;">
+      <div class="filter-search-wrap" style="flex:1;min-width:180px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="filter-search" id="searchInput" type="text" placeholder="Search certificates, skills, hosts..." />
+      </div>
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">All</button>
+        <button class="filter-tab" data-filter="academic">Academic</button>
+        <button class="filter-tab" data-filter="professional">Professional</button>
+        <button class="filter-tab" data-filter="cocurricular">Co-Curricular</button>
+        <button class="filter-tab" data-filter="volunteer">Volunteer</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page-wrap">
+
+    <div class="page-header" id="pageHeader">
+      <h1>Certificates</h1>
+      <p>A growing collection of achievements, courses, and recognitions earned throughout my academic and professional journey.</p>
+    </div>
+
+    <div class="cert-section" id="certSection">
+      <div class="cert-count" id="certCount">Showing <span id="countNum">21</span> certificates</div>
+      <div class="cert-grid" id="certGrid">
+
+        <!-- 1 · Professional (Hackfest / CP) -->
+        <div class="cert-card" data-category="professional" data-text="hackfest datathon competitive programming iba 2026">
+          <div class="cert-img-wrap" onclick="openLightbox('cert1.jpg')">
+            <img src="cert1.jpg" alt="Hackfest Datathon Certificate" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2026</span>
+              <span class="cert-badge badge-professional">Professional</span>
+            </div>
+            <div class="cert-title">Hackfest Datathon — Certificate of Participation</div>
+            <div class="cert-desc">Recognized for active participation and dedication in the Competitive Programming module at IBA Hackfest Datathon, held 14th & 15th February 2026.</div>
+          </div>
+        </div>
+
+        <!-- 2 · Professional (Cisco) -->
+        <div class="cert-card" data-category="professional" data-text="c++ essentials cisco networking academy nanotechx 2026">
+          <div class="cert-img-wrap" onclick="openLightbox('cert2.jpg')">
+            <img src="cert2.jpg" alt="C++ Essentials 2 Certificate" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2026</span>
+              <span class="cert-badge badge-professional">Professional</span>
+            </div>
+            <div class="cert-title">C++ Essentials 2 — Cisco Networking Academy</div>
+            <div class="cert-desc">Successfully completed C++ Essentials 2 offered by NANOTECHX through the Cisco Networking Academy program. Completed January 2026.</div>
+          </div>
+        </div>
+
+        <!-- 3 · Academic (IKMC 2018) -->
+        <div class="cert-card" data-category="academic" data-text="international kangaroo mathematics contest ikmc 2018 beaconhouse">
+          <div class="cert-img-wrap" onclick="openLightbox('cert3.jpg')">
+            <img src="cert3.jpg" alt="International Kangaroo Mathematics Contest 2018" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2018</span>
+              <span class="cert-badge badge-academic">Academic</span>
+            </div>
+            <div class="cert-title">28th International Kangaroo Mathematics Contest</div>
+            <div class="cert-desc">Awarded for successful participation in the 28th IKMC-2018 at Cadet Level, representing Beaconhouse School System Gulshan.</div>
+          </div>
+        </div>
+
+        <!-- 4 · Co-Curricular (Best Class Display) -->
+        <div class="cert-card" data-category="cocurricular" data-text="best class display beaconhouse gulshan cambridge 2020 chocolate">
+          <div class="cert-img-wrap" onclick="openLightbox('cert4.jpg')">
+            <img src="cert4.jpg" alt="Beaconhouse Best Class Display" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2020</span>
+              <span class="cert-badge badge-cocurricular">Co-Curricular</span>
+            </div>
+            <div class="cert-title">Best Class Display — Beaconhouse Gulshan Cambridge</div>
+            <div class="cert-desc">Awarded for Best Class Display during Project Chocolate at Beaconhouse School System Gulshan Cambridge, February 2020.</div>
+          </div>
+        </div>
+
+        <!-- 5 · Co-Curricular (Responsibility) -->
+        <div class="cert-card" data-category="cocurricular" data-text="responsibility beaconhouse school 2019 leadership">
+          <div class="cert-img-wrap" onclick="openLightbox('cert5.jpg')">
+            <img src="cert5.jpg" alt="Responsibility Certificate" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2019</span>
+              <span class="cert-badge badge-cocurricular">Co-Curricular</span>
+            </div>
+            <div class="cert-title">Responsibility — Beaconhouse School System</div>
+            <div class="cert-desc">Recognized for demonstrating outstanding responsibility — "Can be counted on!" — by Beaconhouse School System Gulshan Campus, 2018-2019.</div>
+          </div>
+        </div>
+
+        <!-- 6 · Academic (Montessori Appreciation) -->
+        <div class="cert-card" data-category="academic" data-text="appreciation certificate junior cadre montessori 2012 creative">
+          <div class="cert-img-wrap" onclick="openLightbox('cert6.jpg')">
+            <img src="cert6.jpg" alt="Junior Cadre Montessori Appreciation Certificate" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2012</span>
+              <span class="cert-badge badge-academic">Academic</span>
+            </div>
+            <div class="cert-title">Appreciation Certificate — Junior Cadre Montessori</div>
+            <div class="cert-desc">Awarded for Persisting Creative Mind at Junior Cadre Montessori & Education System, Grade 1B, June 2012.</div>
+          </div>
+        </div>
+
+        <!-- 7 · Academic (Montessori Science Project) -->
+        <div class="cert-card" data-category="academic" data-text="science sst project junior cadre montessori 2013">
+          <div class="cert-img-wrap" onclick="openLightbox('cert7.jpg')">
+            <img src="cert7.jpg" alt="Junior Cadre Montessori Science Project" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2013</span>
+              <span class="cert-badge badge-academic">Academic</span>
+            </div>
+            <div class="cert-title">Science & SST Project — Junior Cadre Montessori</div>
+            <div class="cert-desc">Awarded for making a Science and SST Project at Junior Cadre Montessori & Education System, Grade III-A, June 2013.</div>
+          </div>
+        </div>
+
+        <!-- 8 · Co-Curricular (Crazy Science) -->
+        <div class="cert-card" data-category="cocurricular" data-text="crazy science mind explorer 2016 participation">
+          <div class="cert-img-wrap" onclick="openLightbox('cert8.jpg')">
+            <img src="cert8.jpg" alt="The Mind Explorer Crazy Science" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2016</span>
+              <span class="cert-badge badge-cocurricular">Co-Curricular</span>
+            </div>
+            <div class="cert-title">Crazy Science — The Mind Explorer</div>
+            <div class="cert-desc">Certificate of Participation for attending the Crazy Science module at The Mind Explorer, June 2016.</div>
+          </div>
+        </div>
+
+        <!-- 9 · Co-Curricular (Math Buster) -->
+        <div class="cert-card" data-category="cocurricular" data-text="math buster mind explorer 2016 mathematics">
+          <div class="cert-img-wrap" onclick="openLightbox('cert9.jpg')">
+            <img src="cert9.jpg" alt="The Mind Explorer Math Buster" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2016</span>
+              <span class="cert-badge badge-cocurricular">Co-Curricular</span>
+            </div>
+            <div class="cert-title">Math Buster — The Mind Explorer</div>
+            <div class="cert-desc">Certificate of Participation for attending the Math Buster module at The Mind Explorer, June 2016.</div>
+          </div>
+        </div>
+
+        <!-- 10 · Co-Curricular (DIY) -->
+        <div class="cert-card" data-category="cocurricular" data-text="do it yourself mind explorer 2016 diy">
+          <div class="cert-img-wrap" onclick="openLightbox('cert10.jpg')">
+            <img src="cert10.jpg" alt="The Mind Explorer Do It Yourself" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2016</span>
+              <span class="cert-badge badge-cocurricular">Co-Curricular</span>
+            </div>
+            <div class="cert-title">Do It Yourself — The Mind Explorer</div>
+            <div class="cert-desc">Certificate of Participation for attending the Do It Yourself module at The Mind Explorer, June 2016.</div>
+          </div>
+        </div>
+
+        <!-- 11 · Academic (Science Quiz) -->
+        <div class="cert-card" data-category="academic" data-text="inter-house science quiz beaconhouse 2018">
+          <div class="cert-img-wrap" onclick="openLightbox('cert11.jpg')">
+            <img src="cert11.jpg" alt="Beaconhouse Inter-house Science Quiz" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2018</span>
+              <span class="cert-badge badge-academic">Academic</span>
+            </div>
+            <div class="cert-title">Inter-house Science Quiz — Beaconhouse School System</div>
+            <div class="cert-desc">Certificate of Participation awarded for competing in the Inter-house Science Quiz at Beaconhouse School System, Class VII-B, April 2018.</div>
+          </div>
+        </div>
+
+        <!-- 12 · Professional (Teacher Assistant BCP) -->
+        <div class="cert-card" data-category="professional" data-text="certificate of honour teacher assistant physics bcp beaconhouse 2024">
+          <div class="cert-img-wrap" onclick="openLightbox('cert12.jpg')">
+            <img src="cert12.jpg" alt="BCP Certificate of Honour Teacher Assistant Physics" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2024</span>
+              <span class="cert-badge badge-professional">Professional</span>
+            </div>
+            <div class="cert-title">Certificate of Honour — BCP Beaconhouse College Programme</div>
+            <div class="cert-desc">Proudly presented for being the Teacher's Assistant in Physics, Class A2-B, at Beaconhouse College Programme, August 2024.</div>
+          </div>
+        </div>
+
+        <!-- 13 · Academic (HRCA Achievement 2020) -->
+        <div class="cert-card" data-category="academic" data-text="hrca certificate of achievement science beaconhouse 2020">
+          <div class="cert-img-wrap" onclick="openLightbox('cert13.jpg')">
+            <img src="cert13.jpg" alt="HRCA Certificate of Achievement" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2020</span>
+              <span class="cert-badge badge-academic">Academic</span>
+            </div>
+            <div class="cert-title">Certificate of Achievement — HRCA</div>
+            <div class="cert-desc">Awarded by HRCA for participation in the Science category at Beaconhouse School System Gulshan Cambridge, Class 9, 2020.</div>
+          </div>
+        </div>
+
+        <!-- 14 · Academic (HRCA Quiz 2017) -->
+        <div class="cert-card" data-category="academic" data-text="english science quiz hrca beaconhouse 2017">
+          <div class="cert-img-wrap" onclick="openLightbox('cert14.jpg')">
+            <img src="cert14.jpg" alt="HRCA Quiz Certificate" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2017</span>
+              <span class="cert-badge badge-academic">Academic</span>
+            </div>
+            <div class="cert-title">English & Science Quiz — HRCA</div>
+            <div class="cert-desc">Presented for participation in the HRCA Quiz 2017-18 in the Science category at Beaconhouse School System Gulshan Middle II, Class 7.</div>
+          </div>
+        </div>
+
+        <!-- 15 · Academic (IKMC 2015) -->
+        <div class="cert-card" data-category="academic" data-text="international kangaroo mathematics contest ikmc 2015 beaconhouse">
+          <div class="cert-img-wrap" onclick="openLightbox('cert15.jpg')">
+            <img src="cert15.jpg" alt="International Kangaroo Mathematics Contest 2015" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2015</span>
+              <span class="cert-badge badge-academic">Academic</span>
+            </div>
+            <div class="cert-title">International Kangaroo Mathematics Contest 2015</div>
+            <div class="cert-desc">Awarded for successful participation in the IKMC-2015 at Ecolier Level, representing Beaconhouse School System Gulshan Primary-IV.</div>
+          </div>
+        </div>
+
+        <!-- 16 · Co-Curricular (Green Living) -->
+        <div class="cert-card" data-category="cocurricular" data-text="3rs campus quiz green living association 2014 environment care">
+          <div class="cert-img-wrap" onclick="openLightbox('cert16.jpg')">
+            <img src="cert16.jpg" alt="Green Living Association 3Rs Campus Quiz 2014" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2014</span>
+              <span class="cert-badge badge-cocurricular">Co-Curricular</span>
+            </div>
+            <div class="cert-title">3Rs Campus Quiz — Green Living Association</div>
+            <div class="cert-desc">Participation Certificate for the 3Rs Campus Quiz 2014 arranged by Green Living Association, Gulshan Primary IV, as part of the CARE campaign, Oct-Dec 2014.</div>
+          </div>
+        </div>
+
+        <!-- 17 · Volunteer (Patel Hospital) -->
+        <div class="cert-card" data-category="volunteer" data-text="patel hospital letter of appreciation volunteer stallion programme pediatric first aid 2023">
+          <div class="cert-img-wrap" onclick="openLightbox('cert17.jpg')">
+            <img src="cert17.jpg" alt="Patel Hospital Letter of Appreciation" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2023</span>
+              <span class="cert-badge badge-volunteer">Volunteer</span>
+            </div>
+            <div class="cert-title">Letter of Appreciation — Patel Hospital</div>
+            <div class="cert-desc">Issued by Director CRD M. Farhan Asadi for volunteering in the Patel Stallion Programme — serving in the Pediatric ward and participating in Basic First Aid Training, September 2023.</div>
+          </div>
+        </div>
+
+        <!-- 18 · Professional (Physics Teacher BCP) -->
+        <div class="cert-card" data-category="professional" data-text="a level physics teacher bcp gulshan campus cambridge 2024">
+          <div class="cert-img-wrap" onclick="openLightbox('cert18.jpg')">
+            <img src="cert18.jpg" alt="A Level Physics Teaching BCP" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2024</span>
+              <span class="cert-badge badge-professional">Professional</span>
+            </div>
+            <div class="cert-title">A Level Physics Teacher — BCP Gulshan Campus</div>
+            <div class="cert-desc">Served as A Level Physics teacher at Beaconhouse College Programme Gulshan Campus, delivering Cambridge International AS & A Level Physics curriculum.</div>
+          </div>
+        </div>
+
+        <!-- 19 · Professional (Agentic AI) -->
+        <div class="cert-card" data-category="professional" data-text="agentic ai seminar microsoft learn student ambassador maju 2026 context engineering automation">
+          <div class="cert-img-wrap" onclick="openLightbox('cert19.jpeg')">
+            <img src="cert19.jpeg" alt="Microsoft Learn Student Ambassador Agentic AI Seminar" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2026</span>
+              <span class="cert-badge badge-professional">Professional</span>
+            </div>
+            <div class="cert-title">Agentic AI Seminar — Microsoft Learn Student Ambassador</div>
+            <div class="cert-desc">Awarded for successfully completing the Agentic AI Seminar 2026 organized by Microsoft Learn Student Community MAJU, covering Context Engineering, AI Agents, and Automation Workflows.</div>
+          </div>
+        </div>
+
+        <!-- 20 · Professional (MAJU Workshop) -->
+        <div class="cert-card" data-category="professional" data-text="workshop maju linkedin ai career graduate industry ready 2026">
+          <div class="cert-img-wrap" onclick="openLightbox('cert20.png')">
+            <img src="cert20.png" alt="MAJU Workshop Certificate" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2026</span>
+              <span class="cert-badge badge-professional">Professional</span>
+            </div>
+            <div class="cert-title">Workshop Certificate — Muhammad Ali Jinnah University</div>
+            <div class="cert-desc">Awarded for participating in the workshop "From Graduate to Industry-Ready: Mastering AI, Careers & LinkedIn Presence" conducted by Miss Maha Irfan, May 9, 2026.</div>
+          </div>
+        </div>
+
+        <!-- 21 · Academic (OOP) -->
+        <div class="cert-card" data-category="academic" data-text="object oriented programming oop certificate maju 2026">
+          <div class="cert-img-wrap" onclick="openLightbox('cert21.png')">
+            <img src="cert21.png" alt="OOP Certificate" loading="lazy" />
+          </div>
+          <div class="cert-info">
+            <div class="cert-meta">
+              <span class="cert-year">2026</span>
+              <span class="cert-badge badge-academic">Academic</span>
+            </div>
+            <div class="cert-title">Object Oriented Programming — Certificate</div>
+            <div class="cert-desc">Certificate awarded for completing Object Oriented Programming coursework at Muhammad Ali Jinnah University, 2026.</div>
+          </div>
+        </div>
+
+      </div><!-- end cert-grid -->
+      <div class="no-results" id="noResults">No certificates match your search.</div>
+    </div><!-- end cert-section -->
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-name">
+        <h3>Muhammad Abdullah Khan</h3>
+        <p>BS Computer Science · A-Level Physics Teacher · Researcher</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Portfolio</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="cv.html">CV</a>
+      </div>
+      <div class="footer-contact">
+        <a href="mailto:abdullahkan11may@gmail.com">abdullahkan11may@gmail.com</a>
+        <a href="https://www.linkedin.com/in/abdullah-khan-34b156402" target="_blank">LinkedIn</a>
+        <a href="tel:03192096617">03192096617</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Muhammad Abdullah Khan · All Rights Reserved</p>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close" onclick="closeLightbox()">×</span>
+    <img id="lightboxImg" src="" alt="Certificate" />
+  </div>
+
+  <script>
+    // ── LIGHTBOX ──
+    function openLightbox(src) {
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightbox').classList.add('open');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    // ── FILTER & SEARCH ──
+    let activeFilter = 'all';
+    let searchQuery  = '';
+
+    function applyFilters() {
+      const cards = document.querySelectorAll('.cert-card');
+      let visible = 0;
+      cards.forEach(card => {
+        const cat  = card.dataset.category;
+        const text = (card.dataset.text + ' ' + card.innerText).toLowerCase();
+        const matchCat    = activeFilter === 'all' || cat === activeFilter;
+        const matchSearch = searchQuery === '' || text.includes(searchQuery);
+        if (matchCat && matchSearch) {
+          card.classList.remove('hidden');
+          visible++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      document.getElementById('countNum').textContent = visible;
+      document.getElementById('noResults').classList.toggle('show', visible === 0);
+    }
+
+    document.querySelectorAll('.filter-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter = btn.dataset.filter;
+        applyFilters();
+      });
+    });
+
+    document.getElementById('searchInput').addEventListener('input', e => {
+      searchQuery = e.target.value.toLowerCase().trim();
+      applyFilters();
+    });
+
+    // ── PROGRESS BAR ──
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      document.getElementById('progressBar').style.width = (scrollTop / docHeight * 100) + '%';
+    });
+
+    // ── SCROLL ANIMATIONS ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.page-header, .cert-section').forEach(el => observer.observe(el));
+
+    // ── CUSTOM CURSOR ──
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+    document.addEventListener('mousedown', () => cursor.classList.add('clicking'));
+    document.addEventListener('mouseup',   () => cursor.classList.remove('clicking'));
+    document.querySelectorAll('a, button, .cert-img-wrap, .lightbox-close, .filter-tab').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+    });
+  </script>
+
+</body>
+</html>

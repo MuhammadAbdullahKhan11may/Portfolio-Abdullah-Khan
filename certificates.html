@@ -184,6 +184,8 @@
       .nav-btn { font-size: 11px; padding: 7px 12px; }
       .nav-btn .btn-icon { display: none; }
       .filter-bar { gap: 10px; }
+      .navbar { flex-wrap: nowrap; align-items: flex-start; }
+.filter-tab { font-size: 12px; padding: 6px 12px; }
     }
   </style>
 </head>
@@ -200,22 +202,24 @@
 
   <div class="progress-bar" id="progressBar"></div>
 
-  <nav class="navbar" style="justify-content:flex-start; gap:16px; padding:10px 20px;">
-    <a href="index.html" class="nav-btn"><div class="btn-icon"><span></span></div>← Portfolio</a>
-    <div style="display:flex;align-items:center;gap:10px;flex:1;flex-wrap:wrap;">
-      <div class="filter-search-wrap" style="flex:1;min-width:180px;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input class="filter-search" id="searchInput" type="text" placeholder="Search certificates, skills, hosts..." />
-      </div>
-      <div class="filter-tabs">
-        <button class="filter-tab active" data-filter="all">All</button>
-        <button class="filter-tab" data-filter="academic">Academic</button>
-        <button class="filter-tab" data-filter="professional">Professional</button>
-        <button class="filter-tab" data-filter="cocurricular">Co-Curricular</button>
-        <button class="filter-tab" data-filter="volunteer">Volunteer</button>
-      </div>
+<nav class="navbar" style="justify-content:space-between; padding:10px 16px; flex-wrap:nowrap; gap:10px;">
+  <a href="index.html" class="nav-btn" style="flex-shrink:0; font-size:12px; padding:8px 14px;">
+    <div class="btn-icon"><span></span></div>← Portfolio
+  </a>
+  <div style="display:flex; flex-direction:column; gap:8px; flex:1;">
+    <div class="filter-search-wrap" style="width:100%;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="filter-search" id="searchInput" type="text" placeholder="Search certificates..." />
     </div>
-  </nav>
+    <div class="filter-tabs" style="display:flex; flex-wrap:wrap; gap:6px;">
+      <button class="filter-tab active" data-filter="all">All</button>
+      <button class="filter-tab" data-filter="academic">Academic</button>
+      <button class="filter-tab" data-filter="professional">Professional</button>
+      <button class="filter-tab" data-filter="cocurricular">Co-Curricular</button>
+      <button class="filter-tab" data-filter="volunteer">Volunteer</button>
+    </div>
+  </div>
+</nav>
 
   <main class="page-wrap">
 
